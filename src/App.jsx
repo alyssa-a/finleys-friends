@@ -6,18 +6,6 @@ import Login from './pages/Login';
 import Favorites from './pages/Favorites';
 
 function App() {
-    // const [breeds, setBreeds] = useState();
-
-    // useEffect(() => {
-    //     getBreeds().then(res => setBreeds(res));
-    //     searchDogs().then(res => {
-    //         console.log(res);
-    //         getDogs(res.resultIds).then(res => {
-    //             console.log(res);
-    //         })
-    //     });
-    // }, []);
-
   return ( 
     <Router>
         <Routes>

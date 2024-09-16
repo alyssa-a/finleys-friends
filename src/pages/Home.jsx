@@ -1,16 +1,22 @@
 import { useState, useEffect } from "react";
-import { searchDogs, getDogs } from "../common/api";
+import { searchDogs, getDogs, getBreeds } from "../common/api";
 import DogCard from "../components/DogCard";
-import { FormControl, Select, InputLabel, MenuItem } from "@mui/material";
+import { FormControl, Select, InputLabel, MenuItem, Autocomplete, TextField } from "@mui/material";
 
 export default function Home() {
     const [searchResults, setSearchResults] = useState();
     const [dogs, setDogs] = useState();
     const [sort, setSort] = useState("breed:asc");
+    const [breeds, setBreeds] = useState();
+    const [selectedBreeds, setSelectedBreeds] = useState();
 
     const handleSortChange = (e) => {
         setSort(e.target.value);
     };
+
+    const handleBreedSelection = (e, value) => {
+        setSelectedBreeds(value);
+    }
 
     // const handleNextPage = () => {
     //     searchDogs(searchResults.next).then(searchData => {
@@ -27,7 +33,11 @@ export default function Home() {
             getDogs(searchData.resultIds).then(dogData => {
                 setDogs(dogData)
             })
-        })
+        });
+
+        getBreeds().then(breedsData => {
+            setBreeds(breedsData)
+        });
     }, []);
 
     useEffect(() => {
@@ -36,8 +46,17 @@ export default function Home() {
             getDogs(searchData.resultIds).then(dogData => {
                 setDogs(dogData)
             })
-        })
+        });
     }, [sort]);
+
+    useEffect(() => {
+        searchDogs(`breeds=${selectedBreeds}`).then(searchData => {
+            setSearchResults(searchData);
+            getDogs(searchData.resultIds).then(dogData => {
+                setDogs(dogData)
+            })
+        });
+    }, [selectedBreeds])
 
     console.log(searchResults);
 
@@ -45,7 +64,19 @@ export default function Home() {
         <div className="container my-8">
             <h2>Adoptable Dogs</h2>
 
-            
+            {(breeds && breeds.length > 0) &&
+                <Autocomplete
+                    multiple
+                    limitTags={100}
+                    id="multiple-limit-tags"
+                    options={breeds}
+                    getOptionLabel={(option) => option}
+                    onChange={handleBreedSelection}
+                    renderInput={(params) => (
+                        <TextField {...params} label="Breed" placeholder="Breed" />
+                    )}
+                />
+            }
 
             {(dogs && dogs.length > 0) &&
                 <>
