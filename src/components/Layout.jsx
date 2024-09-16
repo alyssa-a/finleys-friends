@@ -5,7 +5,10 @@ export default function Layout() {
     return (
         <>
             <Header/>
-            <Outlet/>
+            
+            <div className="container my-8">
+                <Outlet/>
+            </div>
         </>
     )
 }
