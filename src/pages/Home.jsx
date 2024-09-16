@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { searchDogs, getDogs, getBreeds } from "../common/api";
+import { searchDogs, getDogs, getBreeds, getLocations } from "../common/api";
 import DogCard from "../components/DogCard";
 import { FormControl, Select, InputLabel, MenuItem, Autocomplete, TextField } from "@mui/material";
 
 export default function Home() {
     const [searchResults, setSearchResults] = useState();
     const [dogs, setDogs] = useState();
+    const [locations, setLocations] = useState();
     const [sort, setSort] = useState("breed:asc");
     const [breeds, setBreeds] = useState();
     const [selectedBreeds, setSelectedBreeds] = useState();
@@ -30,9 +31,17 @@ export default function Home() {
     useEffect(() => {
         searchDogs("sort=breed:asc").then(searchData => {
             setSearchResults(searchData);
+
             getDogs(searchData.resultIds).then(dogData => {
-                setDogs(dogData)
-            })
+                setDogs(dogData);
+                
+                const zipcodes = dogData.map(dog => dog.zip_code);
+                getLocations(zipcodes).then(locationData => {
+                    setLocations(locationData);
+                })
+
+            });
+
         });
 
         getBreeds().then(breedsData => {
@@ -56,9 +65,9 @@ export default function Home() {
                 setDogs(dogData)
             })
         });
-    }, [selectedBreeds])
+    }, [selectedBreeds]);
 
-    console.log(searchResults);
+    console.log(locations);
 
     return (
         <div className="container my-8">
@@ -78,7 +87,7 @@ export default function Home() {
                 />
             }
 
-            {(dogs && dogs.length > 0) &&
+            {(dogs && dogs.length > 0 && locations && locations.length > 0) &&
                 <>
                     <FormControl fullWidth>
                         <InputLabel id="demo-simple-select-label">Sort By:</InputLabel>
@@ -98,8 +107,15 @@ export default function Home() {
                         </Select>
                     </FormControl>
                     <div className="grid gap-4 grid-cols-2 lg:grid-cols-3">
-                        {dogs.map(dog => 
-                            <DogCard key={dog.id} dog={dog}/>
+                        {dogs.map(dog => {
+                            const location = locations.find(location => {
+                                return location.zip_code === dog.zip_code;
+                            });
+
+                            return (
+                                <DogCard key={dog.id} dog={dog} city={location.city} state={location.state}/>
+                            );
+                        }
                         )}
                     </div>
                     

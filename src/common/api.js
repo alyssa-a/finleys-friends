@@ -76,3 +76,20 @@ export async function getDogs(dogIds) {
 
     return await dogsRes.json();
 }
+
+export async function getLocations(zipcodes) {
+    const locationsRes = await fetch(`${baseUrl}/locations`, {
+        credentials: "include",
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(zipcodes)
+    });
+
+    if (!locationsRes.ok) {
+        throw new Error(`An error has occured: ${locationsRes.status}`);
+    }
+
+    return await locationsRes.json();
+}
