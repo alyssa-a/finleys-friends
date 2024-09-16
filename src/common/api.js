@@ -45,7 +45,7 @@ export async function getBreeds() {
 export async function searchDogs(params) {
     let url = `${baseUrl}/dogs/search`;
 
-    if (params !== undefined) {
+    if (params) {
         url = `${url}?${params}`;
     }
 
@@ -58,6 +58,20 @@ export async function searchDogs(params) {
     }
 
     return await searchRes.json();
+}
+
+export async function getPage(params) {
+    const url = baseUrl + params;
+
+    const pageRes = await fetch(url, {
+        credentials: "include"
+    });
+
+    if (!pageRes.ok) {
+        throw new Error(`An error has occured: ${pageRes.status}`);
+    }
+
+    return await pageRes.json();
 }
 
 export async function getDogs(dogIds) {

@@ -1,28 +1,38 @@
 import { useEffect, useState } from "react";
-import { searchDogs } from "../common/api";
+import { searchDogs, getPage } from "../common/api";
 import DogsGrid from "../components/DogsGrid";
 import DogsPagination from "../components/DogsPagination";
+import DogsSort from "../components/DogsSort";
 
 export default function Home() {
     const [searchResults, setSearchResults] = useState();
+    const [sort, setSort] = useState("breed:asc");
 
     const handlePrevPage = () => {
-        searchDogs(searchResults.prev).then(searchData => {
-            setSearchResults(searchData)
+        getPage(searchResults.prev).then(pageData => {
+            setSearchResults(pageData)
         });
     }
 
     const handleNextPage = () => {
-        searchDogs(searchResults.next).then(searchData => {
-            setSearchResults(searchData)
+        getPage(searchResults.next).then(pageData => {
+            setSearchResults(pageData)
         });
     }
 
+    const handleSort = (e) => {
+        setSort(e.target.value);
+    }
+
     useEffect(() => {
-        searchDogs().then(searchData => {
+        const sortParam = `sort=${sort}`;
+
+        searchDogs(sortParam).then(searchData => {
             setSearchResults(searchData)
         });
-    }, []);
+    }, [sort]);
+
+    console.log(searchResults);
 
     return (
         <>
@@ -30,6 +40,9 @@ export default function Home() {
 
             {(searchResults && searchResults.resultIds) && 
                 <>
+                    <div className="mb-5 flex justify-end">
+                        <DogsSort sort={sort} onSortChange={handleSort}/>
+                    </div>
                     <DogsGrid dogIds={searchResults.resultIds}/>
                     <DogsPagination 
                         prevPage={searchResults.prev ? true : false} 
