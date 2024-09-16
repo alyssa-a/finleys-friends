@@ -75,11 +75,14 @@ export default function Home() {
                 {(searchResults && searchResults.resultIds) && 
                     <>
                         <DogsGrid dogIds={searchResults.resultIds}/>
+
                         <DogsPagination 
                             prevPage={searchResults.prev ? true : false} 
                             nextPage={searchResults.next ? true : false}
                             onClickPrev={handlePrevPage}
                             onClickNext={handleNextPage}
+                            offset={searchResults.next}
+                            total={searchResults.total}
                         />
                     </>
                 }
