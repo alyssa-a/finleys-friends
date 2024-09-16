@@ -42,8 +42,14 @@ export async function getBreeds() {
     return await breedsRes.json();
 }
 
-export async function searchDogs() {
-    const searchRes = await fetch(`${baseUrl}/dogs/search`, {
+export async function searchDogs(params) {
+    let url = `${baseUrl}/dogs/search`;
+
+    if (params !== undefined) {
+        url = `${url}?${params}`;
+    }
+
+    const searchRes = await fetch(url, {
         credentials: "include"
     });
 
