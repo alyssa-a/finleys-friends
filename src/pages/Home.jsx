@@ -6,6 +6,18 @@ import DogsPagination from "../components/DogsPagination";
 export default function Home() {
     const [searchResults, setSearchResults] = useState();
 
+    const handlePrevPage = () => {
+        searchDogs(searchResults.prev).then(searchData => {
+            setSearchResults(searchData)
+        });
+    }
+
+    const handleNextPage = () => {
+        searchDogs(searchResults.next).then(searchData => {
+            setSearchResults(searchData)
+        });
+    }
+
     useEffect(() => {
         searchDogs().then(searchData => {
             setSearchResults(searchData)
@@ -22,6 +34,8 @@ export default function Home() {
                     <DogsPagination 
                         prevPage={searchResults.prev ? true : false} 
                         nextPage={searchResults.next ? true : false}
+                        onClickPrev={handlePrevPage}
+                        onClickNext={handleNextPage}
                     />
                 </>
             }
