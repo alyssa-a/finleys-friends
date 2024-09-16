@@ -3,29 +3,12 @@ import { HeartIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 import PropTypes from 'prop-types';
 
-export default function DogCard({ dog }) {
-    const currentUser = localStorage.getItem("currentUser");
-    const [favorite, setFavorite] = useState(false);
-    const [userFavorites, setUserFavorites] = useState(JSON.parse(
-        localStorage.getItem(currentUser)
-    ));
+export default function DogCard({ dog, isFavorite, updateFavorites }) {
+    const [favorite, setFavorite] = useState(isFavorite);
 
     const toggleFavorite = () => {
         setFavorite(!favorite);
-
-        if (userFavorites.length === 0) {
-            const favoritesObj = {
-                favorites: [dog.id]
-            }
-
-            setUserFavorites([...userFavorites, favoritesObj]);
-
-            console.log(userFavorites);
-        }
-
-        // console.log(dog.id);
-
-        // localStorage.setItem(currentUser, JSON.stringify(userFavorites));
+        updateFavorites(dog.id);
     }
 
     return (
@@ -62,4 +45,6 @@ export default function DogCard({ dog }) {
 }
 DogCard.propTypes = {
     dog: PropTypes.object.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+    updateFavorites: PropTypes.func.isRequired
 }
