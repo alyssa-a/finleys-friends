@@ -7,6 +7,7 @@ import Root from "./routes/root";
 import ErrorPage from "./pages/error-page";
 import Login from './routes/login';
 import Favorites from './routes/favorites';
+import '@fontsource-variable/lexend-deca';
 
 const router = createBrowserRouter([
     {
