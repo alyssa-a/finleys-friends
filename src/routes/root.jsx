@@ -1,12 +1,11 @@
 import { Outlet } from "react-router-dom";
+import Header from "../components/Header";
 
 export default function Root() {
     return (
-    <>
-    <header>
-        <h1>Finleys Friends</h1>
-    </header>
-    <Outlet />
-    </>
+        <>
+            <Header/>
+            <Outlet />
+        </>
     );
 }
