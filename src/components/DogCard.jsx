@@ -29,7 +29,7 @@ export default function DogCard({ dog }) {
     }
 
     return (
-        <div className="border relative">
+        <div className="border border-slate-300 relative">
             <div className="w-full h-52 bg-slate-200">
                 <img className="object-cover object-center w-full h-full" src={dog.img} alt={dog.name}/>
             </div>
@@ -38,7 +38,14 @@ export default function DogCard({ dog }) {
 
                 <p>{dog.breed}</p>
 
-                <p>{dog.age} {dog.age === 1 ? "year" : "years"} old</p>
+                { dog.age === 0 ? 
+                    (<p>Less than 1 year old</p>) :
+                    ( 
+                        <p>
+                            {dog.age} {dog.age === 1 ? "year" : "years"} old
+                        </p> 
+                    )
+                }
 
                 <p>{dog.zip_code}</p>
 
