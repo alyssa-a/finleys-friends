@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import { Route, Routes } from "react-router-dom";
 import { login, logout, getBreeds, searchDogs, getDogs } from './common/api';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import Login from './pages/Login';
 import './App.css'
 
 function App() {
@@ -20,6 +22,12 @@ function App() {
   return (
     <>
       <p>Finleys Friends</p>
+      
+        <Routes>
+            <Route path="/login" element={<Login />} />
+        </Routes>
+      
+      
       <button onClick={login}>
         Login
       </button>
