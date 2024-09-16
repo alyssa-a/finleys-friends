@@ -1,6 +1,24 @@
+import { useNavigate } from 'react-router-dom';
+import { login } from '../common/api'
+
 export default function LoginForm() {
+    const navigate = useNavigate();
+    
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(e.target);
+        const requestBody = JSON.stringify( {
+            name: formData.get("name"),
+            email: formData.get("email")
+        });
+
+        await login(requestBody);
+        navigate("/");
+    }
+    
     return (
-        <form>
+        <form onSubmit={handleLogin}>
             <div className="mb-3">
                 <label htmlFor="name" className="block mb-1">
                     Name

@@ -1,16 +1,13 @@
 const baseUrl = "https://frontend-take-home-service.fetch.com";
 
-export async function login() {
+export async function login(requestBody) {
     const loginRes = await fetch(`${baseUrl}/auth/login`, {
         credentials: "include",
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-            name: "User",
-            email: "user@email.com"
-        })
+        body: requestBody
     });
 
     if (!loginRes.ok) {
