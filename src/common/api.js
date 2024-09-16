@@ -13,7 +13,7 @@ export async function login(requestBody) {
     if (!loginRes.ok) {
         throw new Error(`An error has occured: ${loginRes.status}`);
     } else {
-        console.log("authenticated!");
+        return loginRes.status;
     }
 }
 

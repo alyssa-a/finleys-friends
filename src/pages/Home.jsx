@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { searchDogs, getDogs, getBreeds, getLocations } from "../common/api";
 import DogCard from "../components/DogCard";
 import { FormControl, Select, InputLabel, MenuItem, Autocomplete, TextField } from "@mui/material";
 
 export default function Home() {
     const [searchResults, setSearchResults] = useState();
-    const [dogs, setDogs] = useState();
-    const [locations, setLocations] = useState();
+    const [dogs, setDogs] = useState([]);
+    const [locations, setLocations] = useState([]);
     const [sort, setSort] = useState("breed:asc");
     const [breeds, setBreeds] = useState();
-    const [selectedBreeds, setSelectedBreeds] = useState();
+    const [selectedBreeds, setSelectedBreeds] = useState([]);
 
     const handleSortChange = (e) => {
         setSort(e.target.value);
@@ -18,6 +18,40 @@ export default function Home() {
     const handleBreedSelection = (e, value) => {
         setSelectedBreeds(value);
     }
+
+    const makeBreedsQueryParams = useCallback(() => {
+        let params = "breeds=";
+        if (selectedBreeds.length > 0) {
+            params += selectedBreeds.join("&breeds=");
+            return params;
+        } else {
+            return;
+        }
+    }, [selectedBreeds]);
+
+    const getAllDogData = useCallback(() => {
+        const breedFilter = makeBreedsQueryParams();
+        const queryParams = `${breedFilter}&sort=breed:asc`;
+        searchDogs(queryParams).then(searchData => {
+            // save current page of search results
+            setSearchResults(searchData);
+
+            // pass results to dogs endpoint
+            getDogs(searchData.resultIds).then(dogData => {
+                // save current page of dogs data
+                setDogs(dogData);
+                
+                // pass zipcodes from dog data to locations endpoint
+                const zipcodes = dogData.map(dog => dog.zip_code);
+                getLocations(zipcodes).then(locationData => {
+                    // save locations for current page of dogs data
+                    setLocations(locationData);
+                })
+
+            });
+
+        });
+    }, [makeBreedsQueryParams]);
 
     // const handleNextPage = () => {
     //     searchDogs(searchResults.next).then(searchData => {
@@ -29,45 +63,23 @@ export default function Home() {
     // }
 
     useEffect(() => {
-        searchDogs("sort=breed:asc").then(searchData => {
-            setSearchResults(searchData);
-
-            getDogs(searchData.resultIds).then(dogData => {
-                setDogs(dogData);
-                
-                const zipcodes = dogData.map(dog => dog.zip_code);
-                getLocations(zipcodes).then(locationData => {
-                    setLocations(locationData);
-                })
-
-            });
-
-        });
-
         getBreeds().then(breedsData => {
             setBreeds(breedsData)
         });
     }, []);
 
     useEffect(() => {
-        searchDogs(`sort=${sort}`).then(searchData => {
-            setSearchResults(searchData);
-            getDogs(searchData.resultIds).then(dogData => {
-                setDogs(dogData)
-            })
-        });
-    }, [sort]);
+        getAllDogData();
+    }, [getAllDogData, selectedBreeds]);
 
-    useEffect(() => {
-        searchDogs(`breeds=${selectedBreeds}`).then(searchData => {
-            setSearchResults(searchData);
-            getDogs(searchData.resultIds).then(dogData => {
-                setDogs(dogData)
-            })
-        });
-    }, [selectedBreeds]);
-
-    console.log(locations);
+    // useEffect(() => {
+    //     searchDogs(`sort=${sort}`).then(searchData => {
+    //         setSearchResults(searchData);
+    //         getDogs(searchData.resultIds).then(dogData => {
+    //             setDogs(dogData)
+    //         })
+    //     });
+    // }, [sort]);
 
     return (
         <div className="container my-8">
@@ -87,7 +99,7 @@ export default function Home() {
                 />
             }
 
-            {(dogs && dogs.length > 0 && locations && locations.length > 0) &&
+            {(dogs.length > 0 && locations.length > 0) &&
                 <>
                     <FormControl fullWidth>
                         <InputLabel id="demo-simple-select-label">Sort By:</InputLabel>
@@ -106,6 +118,7 @@ export default function Home() {
                             <MenuItem value={"name:desc"}>Name (Z-A)</MenuItem>
                         </Select>
                     </FormControl>
+
                     <div className="grid gap-4 grid-cols-2 lg:grid-cols-3">
                         {dogs.map(dog => {
                             const location = locations.find(location => {

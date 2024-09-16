@@ -13,8 +13,22 @@ export default function LoginForm() {
             email: formData.get("email")
         });
 
-        await login(requestBody);
-        navigate("/");
+        const status = await login(requestBody);
+
+        if (status === 200) {
+            // after successful login, check if user exists in local storage
+            // to keep track of their favorite dogs
+            if (!localStorage.getItem(formData.get("name"))) {
+                localStorage.setItem(formData.get("name"), "[]");
+            }
+
+            if (!localStorage.getItem("currentUser")) {
+                localStorage.setItem("currentUser", formData.get("name"));
+            }
+
+            navigate("/");
+        }
+
     }
     
     return (

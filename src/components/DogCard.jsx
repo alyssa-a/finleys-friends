@@ -4,10 +4,28 @@ import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 import PropTypes from 'prop-types';
 
 export default function DogCard({ dog, city, state }) {
+    const currentUser = localStorage.getItem("currentUser");
     const [favorite, setFavorite] = useState(false);
+    const [userFavorites, setUserFavorites] = useState(JSON.parse(
+        localStorage.getItem(currentUser)
+    ));
 
     const toggleFavorite = () => {
         setFavorite(!favorite);
+
+        if (userFavorites.length === 0) {
+            const favoritesObj = {
+                favorites: [dog.id]
+            }
+
+            setUserFavorites([...userFavorites, favoritesObj]);
+
+            console.log(userFavorites);
+        }
+
+        // console.log(dog.id);
+
+        // localStorage.setItem(currentUser, JSON.stringify(userFavorites));
     }
 
     return (
