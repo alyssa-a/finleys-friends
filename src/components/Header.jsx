@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 
 export default function Header() {
+    const currentUser = localStorage.getItem("currentUser");
+
     return (
         <header className="min-w-full py-5 bg-cyan-700 text-white">
             <div className="container flex gap-x-7 justify-between items-center">
@@ -9,6 +11,8 @@ export default function Header() {
                         <Link to="/">Finley&rsquo;s Friends</Link>
                     </h1>
                 </div>
+
+                <p>Woof, {currentUser}!</p>
 
             </div>
         </header>

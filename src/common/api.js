@@ -107,3 +107,20 @@ export async function getLocations(zipcodes) {
 
     return await locationsRes.json();
 }
+
+export async function matchDog(favoriteIds) {
+    const matchRes = await fetch(`${baseUrl}/dogs/match`, {
+        credentials: "include",
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: favoriteIds
+    });
+
+    if (!matchRes.ok) {
+        throw new Error(`An error has occured: ${matchRes.status}`);
+    }
+
+    return await matchRes.json();
+}
