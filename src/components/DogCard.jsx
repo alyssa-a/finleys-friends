@@ -1,10 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 import PropTypes from 'prop-types';
 
 export default function DogCard({ dog, isFavorite, updateFavorites }) {
     const [favorite, setFavorite] = useState(isFavorite);
+    const [location, setLocation] = useState();
+
+    // useEffect(() => {
+    //     if (locations != undefined) {
+    //         const allZipcodes = locations.map(location => location.zip_code)
+    //         const zipInLocations = allZipcodes.includes(dog.zip_code);
+    //         if (zipInLocations) {
+    //             const dogLocation = locations.find(location => location.zip_code === dog.zip_code);
+    //             setLocation(dogLocation);
+    //         }
+    //     }
+    // }, [locations, dog])
 
     const toggleFavorite = () => {
         setFavorite(!favorite);
@@ -22,13 +34,14 @@ export default function DogCard({ dog, isFavorite, updateFavorites }) {
                 <p>{dog.breed}</p>
 
                 { dog.age === 0 ? 
-                    (<p>Less than 1 year old</p>) :
-                    ( 
-                        <p>
-                            {dog.age} {dog.age === 1 ? "year" : "years"} old
-                        </p> 
-                    )
+                    ( <p>Less than 1 year old</p> ) :
+                    ( <p>{dog.age} {dog.age === 1 ? "year" : "years"} old</p> )
                 }
+
+                {/* { location ? 
+                    (<p>{location.city}, {location.state}</p>) :
+                    (<p className="italic">Location not found</p>)
+                } */}
 
                 <p>{dog.zip_code}</p>
 
@@ -46,5 +59,5 @@ export default function DogCard({ dog, isFavorite, updateFavorites }) {
 DogCard.propTypes = {
     dog: PropTypes.object.isRequired,
     isFavorite: PropTypes.bool.isRequired,
-    updateFavorites: PropTypes.func.isRequired
+    updateFavorites: PropTypes.func.isRequired,
 }

@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
-import { getDogs } from "../common/api";
+import { getDogs, getLocations } from "../common/api";
 import DogCard from "./DogCard";
 
 export default function DogsGrid({ dogIds }) {
     const currentUser = localStorage.getItem("currentUser");
     const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem(currentUser)))
     const [dogs, setDogs] = useState();
+    const [locations, setLocations] = useState();
 
     const updateFavorites = (dogId) => {
         const inFavorites = favorites.includes(dogId);
@@ -34,7 +35,16 @@ export default function DogsGrid({ dogIds }) {
 
     useEffect(() => {
         localStorage.setItem(currentUser, JSON.stringify(favorites));
-    }, [currentUser, favorites])
+    }, [currentUser, favorites]);
+
+    useEffect(() => {
+        if (dogs) {
+            const zipcodes = dogs.map(dog => dog.zip_code);
+            getLocations(zipcodes).then(locationData => {
+                setLocations(locationData);
+            });
+        }
+    }, [dogs]);
 
     if (!dogs) {
         return <p>Loading dogs...</p>

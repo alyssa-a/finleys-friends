@@ -1,10 +1,12 @@
 import { matchDog, getDogs } from "../common/api";
 import { useState } from "react";
 import DogsGrid from "../components/DogsGrid";
+import { LinearProgress } from "@mui/material";
 
 export default function Favorites() {
     const currentUser = localStorage.getItem("currentUser");
     const favorites = JSON.parse(localStorage.getItem(currentUser));
+    const [loading, setLoading] = useState(false);
     const [match, setMatch] = useState();
 
     const onMatch = () => {
@@ -14,7 +16,11 @@ export default function Favorites() {
         matchDog(mostRecentFavorites).then(matchData => {
             const dogId = matchData.match;
             getDogs([dogId]).then(dogsData => {
-                setMatch(dogsData[0]);
+                setLoading(true);
+                setTimeout(() => {
+                    setMatch(dogsData[0]);
+                    setLoading(false);
+               }, 2500)
             });
         });
     }
@@ -23,7 +29,7 @@ export default function Favorites() {
         <>
             <h2 className="font-bold text-3xl mb-8">{currentUser}&rsquo;s Favorite Dogs</h2>
 
-            {!match &&
+            {(!match && !loading) &&
             <>
                 <button
                     className="bg-cyan-700 text-white font-semibold rounded-md px-6 py-3 mb-8 hover:bg-cyan-950"
@@ -34,6 +40,13 @@ export default function Favorites() {
 
                 <DogsGrid dogIds={favorites}/>
             </>
+            }
+
+            {loading && 
+                <div>
+                    <p className="mb-4 text-xl">Matching with the perfect pup...</p>
+                    <LinearProgress />
+                </div>
             }
 
             {match &&
