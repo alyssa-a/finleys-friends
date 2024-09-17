@@ -21,10 +21,7 @@ Check out the live demo: <https://finleys-friends.vercel.app/>
 ## Callouts
 - __Responsive UI__ - I designed the site with mobile users in mind. At smaller screen sizes, elements will stack and/or resize to provide a smooth user experience.
 
-- __Accessibility__ - Accessibility is always part of my workflow. I made sure color contrast between text and background met WCAG AA requirements. I also included support for screen reader users, providing additional context 
-
-
-keyboard navigation, aria, screen reader support. top of mind for me
+- __Accessibility__ - Accessibility is always part of my workflow. I made sure color contrast between text and background met WCAG AA requirements. I also included support for screen reader users, providing additional context for graphic elements such as the button that marks a dog as favorited. I tested keyboard navigation and added focus states where neccessary as well as aria markup for the menu toggle button.
 
 - __Added additional sorting capabilities__ - The default sort is by breeds (asceding), but users also have the option to sort by breed (descending), youngest, oldest, name (ascending), and name (descending).
 

@@ -10,7 +10,7 @@ export default function DogsPagination({prevPage, onClickPrev, onClickNext, offs
             
             <div className="flex gap-x-4">
                 <button
-                    className="flex items-center outline outline-slate-700 rounded-sm px-2 py-1 disabled:opacity-75"
+                    className="flex items-center outline outline-slate-700 rounded-sm px-2 py-1 disabled:opacity-75 focus-visible:outline focus-visible:outline-red-500 focus-visible:outline-4"
                     disabled={!prevPage}
                     onClick={onClickPrev}
                 >
@@ -19,7 +19,7 @@ export default function DogsPagination({prevPage, onClickPrev, onClickNext, offs
                 </button>
 
                 <button
-                    className="flex items-center outline outline-slate-700 rounded-sm px-2 py-1  disabled:opacity-75"
+                    className="flex items-center outline outline-slate-700 rounded-sm px-2 py-1  disabled:opacity-75 focus-visible:outline focus-visible:outline-red-500 focus-visible:outline-4"
                     disabled={offsetNum > total ? true : false}
                     onClick={onClickNext}
                 >

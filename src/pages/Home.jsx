@@ -17,16 +17,20 @@ export default function Home() {
     const navigate = useNavigate();
     const loggedIn = getWithTTL("LoggedIn");
 
-    const handlePrevPage = () => {
+    const handlePrevPage = (e) => {
+        e.target.blur();
         getPage(searchResults.prev).then(pageData => {
             setSearchResults(pageData)
         });
+        window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 
-    const handleNextPage = () => {
+    const handleNextPage = (e) => {
+        e.target.blur();
         getPage(searchResults.next).then(pageData => {
             setSearchResults(pageData)
         });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     const handleSort = (e) => {
@@ -50,17 +54,17 @@ export default function Home() {
     }, [])
 
     useEffect(() => {
-        let params = ""
-        const sortParam = `sort=${sort}`;
-
+        const params = new URLSearchParams();
+        
         if (selectedBreeds && selectedBreeds.length > 0) {
-            const breedsParam = selectedBreeds.join("&breeds=")
-            params = `breeds=${breedsParam}&${sortParam}`;
-        } else {
-            params = sortParam;
-        }
+            selectedBreeds.forEach(breed => {
+                params.append("breeds", breed);
+            });
+        } 
 
-        searchDogs(params).then(searchData => {
+        params.append("sort", sort);
+
+        searchDogs(params.toString()).then(searchData => {
             setSearchResults(searchData)
         }).catch(error => {
             console.error(error);
