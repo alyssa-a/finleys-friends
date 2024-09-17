@@ -1,6 +1,4 @@
-# Finley's Friends
-
-Fetch frontend takehome
+# Finley's Friends (Fetch Frontend Take Home)
 
 ## Live Demo
 add link here
@@ -11,6 +9,7 @@ add link here
 - Tailwind CSS
 - Material UI
 - Testing framework.........
+- Vercel
 
 ## Setup
 1. Clone this repo
