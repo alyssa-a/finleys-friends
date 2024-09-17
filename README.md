@@ -1,8 +1,26 @@
-# React + Vite
+# Finley's Friends
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Fetch frontend takehome
 
-Currently, two official plugins are available:
+## Live Demo
+add link here
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech
+- React
+- Vite
+- Tailwind CSS
+- Material UI
+- Testing framework.........
+
+## Setup
+1. Clone this repo
+2. Run `npm install`
+3. Run `npm run dev`
+
+## Callouts
+- Responsive UI - i created this with mobile in mind
+- Accessibility - color contrast, keyboard navigation, aria, screen reader support. top of mind for me
+- Added additional sorting capabilities - sort by breed desc, youngest, oldest, name asc, name desc
+- Added locations data - city state more user friendly than zip
+- unit testing - given time, would like to have more code coverage
+- error handling - try to account for error paths to allow for graceful error handling (failed to execute search, failed to load dog results)

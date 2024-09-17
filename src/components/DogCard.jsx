@@ -3,7 +3,7 @@ import { HeartIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 import PropTypes from 'prop-types';
 
-export default function DogCard({ dog, isFavorite, updateFavorites }) {
+export default function DogCard({ dog, isFavorite, updateFavorites, location }) {
     const [favorite, setFavorite] = useState(isFavorite);
 
     const toggleFavorite = () => {
@@ -26,7 +26,7 @@ export default function DogCard({ dog, isFavorite, updateFavorites }) {
                     ( <p>{dog.age} {dog.age === 1 ? "year" : "years"} old</p> )
                 }
 
-                <p>{dog.zip_code}</p>
+                <p>{location}</p>
 
                 <button className="absolute top-2 right-2 p-1 bg-white rounded-sm" onClick={toggleFavorite}>
                     <span className="sr-only">Add {dog.name} to favorites</span>
@@ -43,4 +43,5 @@ DogCard.propTypes = {
     dog: PropTypes.object.isRequired,
     isFavorite: PropTypes.bool.isRequired,
     updateFavorites: PropTypes.func.isRequired,
+    location: PropTypes.string.isRequired
 }

@@ -13,6 +13,7 @@ export default function Home() {
     const [searchResults, setSearchResults] = useState();
     const [sort, setSort] = useState("breed:asc");
     const [selectedBreeds, setSelectedBreeds] = useState();
+    const [error, setError] = useState(false);
     const navigate = useNavigate();
     const loggedIn = getWithTTL("LoggedIn");
 
@@ -61,8 +62,15 @@ export default function Home() {
 
         searchDogs(params).then(searchData => {
             setSearchResults(searchData)
+        }).catch(error => {
+            console.error(error);
+            setError(true);
         });
     }, [sort, selectedBreeds]);
+
+    if (error) {
+        return <p>Error! Sorry, failed to execute search.</p>
+    }
 
     return (
         <>
