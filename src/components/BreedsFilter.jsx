@@ -6,7 +6,7 @@ export default function BreedsFilter({ breeds, onBreedsChange }) {
         <Autocomplete
             multiple
             limitTags={100}
-            id="multiple-limit-tags"
+            id="breeds-autocomplete"
             options={breeds}
             getOptionLabel={(option) => option}
             onChange={onBreedsChange}

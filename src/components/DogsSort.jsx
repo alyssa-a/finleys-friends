@@ -4,10 +4,10 @@ import { FormControl, InputLabel, Select, MenuItem } from "@mui/material"
 export default function DogsSort({sort, onSortChange}) {
     return (
         <FormControl>
-            <InputLabel id="demo-simple-select-label">Sort By:</InputLabel>
+            <InputLabel id="sort-select-label">Sort By:</InputLabel>
             <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                labelId="sort-select-label"
+                id="sort-select"
                 value={sort}
                 label="Sort By:"
                 onChange={onSortChange}

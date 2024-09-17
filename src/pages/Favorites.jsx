@@ -41,12 +41,14 @@ export default function Favorites() {
 
             {(!match && !loading) &&
             <>
-                <button
-                    className="bg-cyan-700 text-white font-semibold rounded-md px-6 py-3 mb-8 hover:bg-cyan-950"
-                    onClick={onMatch}
-                >
-                    Get Matched!
-                </button>
+                { favorites.length > 0 &&
+                    <button
+                        className="bg-cyan-700 text-white font-semibold rounded-md px-6 py-3 mb-8 hover:bg-cyan-950"
+                        onClick={onMatch}
+                    >
+                        Get Matched!
+                    </button>
+                }
 
                 <DogsGrid dogIds={favorites}/>
             </>

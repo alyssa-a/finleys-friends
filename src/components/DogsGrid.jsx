@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
+import { useLocation, Link } from "react-router-dom";
 import { getDogs, getLocations } from "../common/api";
 import DogCard from "./DogCard";
 
@@ -9,6 +10,7 @@ export default function DogsGrid({ dogIds }) {
     const [dogs, setDogs] = useState();
     const [locations, setLocations] = useState();
     const [error, setError] = useState(false);
+    let page = useLocation();
 
     const updateFavorites = (dogId) => {
         const inFavorites = favorites.includes(dogId);
@@ -62,6 +64,10 @@ export default function DogsGrid({ dogIds }) {
     }
 
     if ((dogs && dogs.length === 0)) {
+        if (page.pathname === "/favorites") {
+            return <p>No favorited dogs. <Link className="underline" to="/">Search for dogs!</Link></p>
+        }
+
         return <p>Sorry! No dogs found.</p>
     }
 
