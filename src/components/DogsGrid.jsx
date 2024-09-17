@@ -33,13 +33,16 @@ export default function DogsGrid({ dogIds }) {
     useEffect(() => {
         getDogs(dogIds).then(dogsData => {
             setDogs(dogsData);
-
+            
             const zipcodes = dogsData.map(dog => dog.zip_code);
+
             getLocations(zipcodes).then(locationData => {
                 let locationsMap = new Map();
 
                 locationData.forEach(location => {
-                    locationsMap.set(location.zip_code, location);
+                    if (location !== null) {
+                        locationsMap.set(location.zip_code, location);
+                    }
                 })
                 
                 setLocations(locationsMap); 
@@ -78,11 +81,13 @@ export default function DogsGrid({ dogIds }) {
                     const inFavorites = favorites.includes(dog.id);
 
                     const zipExists = locations.has(dog.zip_code);
-                    let location = dog.zip_code;
+                    let cityState = "";
                     if (zipExists) {
                         const locationObj = locations.get(dog.zip_code);
-                        location = `${locationObj.city}, ${locationObj.state}`;
+                        cityState = `${locationObj.city}, ${locationObj.state}`;
                     }
+                    
+                    const location = zipExists ? cityState : dog.zip_code;
 
                     return (
                         <DogCard 
