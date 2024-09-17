@@ -1,13 +1,17 @@
 import { matchDog, getDogs } from "../common/api";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import DogsGrid from "../components/DogsGrid";
 import { LinearProgress } from "@mui/material";
+import { getWithTTL } from "../common/localStorageTTL";
 
 export default function Favorites() {
     const currentUser = localStorage.getItem("currentUser");
     const favorites = JSON.parse(localStorage.getItem(currentUser));
     const [loading, setLoading] = useState(false);
     const [match, setMatch] = useState();
+    const navigate = useNavigate();
+    const loggedIn = getWithTTL("LoggedIn");
 
     const onMatch = () => {
         // get favorites again
@@ -24,6 +28,12 @@ export default function Favorites() {
             });
         });
     }
+
+    useEffect(() => {
+        if (loggedIn === null) {
+            navigate("/login", { replace: true })
+        }
+    }, [loggedIn, navigate]);
 
     return (
         <>

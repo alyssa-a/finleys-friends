@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { searchDogs, getPage, getBreeds } from "../common/api";
 import DogsGrid from "../components/DogsGrid";
 import DogsPagination from "../components/DogsPagination";
 import DogsSort from "../components/DogsSort";
 import BreedsFilter from "../components/BreedsFilter";
 import { Stack } from "@mui/material";
+import { getWithTTL } from "../common/localStorageTTL";
 
 export default function Home() {
     const [breeds, setBreeds] = useState();
     const [searchResults, setSearchResults] = useState();
     const [sort, setSort] = useState("breed:asc");
     const [selectedBreeds, setSelectedBreeds] = useState();
+    const navigate = useNavigate();
+    const loggedIn = getWithTTL("LoggedIn");
 
     const handlePrevPage = () => {
         getPage(searchResults.prev).then(pageData => {
@@ -31,6 +35,12 @@ export default function Home() {
     const handleBreedSelection = (e, value) => {
         setSelectedBreeds(value);
     }
+
+    useEffect(() => {
+        if (loggedIn === null) {
+            navigate("/login", { replace: true })
+        }
+    }, [loggedIn, navigate]);
 
     useEffect(() => {
         getBreeds().then(breedsData => {

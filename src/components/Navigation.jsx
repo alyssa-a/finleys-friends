@@ -1,15 +1,23 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../common/api";
 import { ChevronDownIcon, MagnifyingGlassIcon, HeartIcon, ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline"; 
 
 export default function Navigation() {
     const currentUser = localStorage.getItem("currentUser");
     const [showMenu, setShowMenu] = useState(false);
+    const navigate = useNavigate();
     let location = useLocation();
 
     const toggleMenu = () => {
         setShowMenu(!showMenu);
+    }
+
+    const handleLogout = () => {
+        logout();
+        localStorage.removeItem("currentUser");
+        localStorage.removeItem("LoggedIn");
+        navigate("/login");
     }
 
     useEffect(() => {
@@ -45,7 +53,7 @@ export default function Navigation() {
                     <li>
                         <button 
                             className="flex gap-x-1 items-center px-5 py-1 w-full hover:bg-cyan-100"
-                            onClick={logout}
+                            onClick={handleLogout}
                         >
                             <ArrowRightStartOnRectangleIcon className="size-4"/>
                             Logout

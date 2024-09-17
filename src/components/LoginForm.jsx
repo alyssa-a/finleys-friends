@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { login } from '../common/api'
+import { login } from '../common/api';
+import { setWithTTL } from '../common/localStorageTTL';
 
 export default function LoginForm() {
     const navigate = useNavigate();
@@ -16,12 +17,15 @@ export default function LoginForm() {
         const status = await login(requestBody);
 
         if (status === 200) {
-            // after successful login, check if user exists in local storage
-            // to keep track of their favorite dogs
+            // store logged in status
+            setWithTTL("LoggedIn", true, 3600000);
+
+            // store user's favorite dogs in a key with their name
             if (!localStorage.getItem(formData.get("name"))) {
                 localStorage.setItem(formData.get("name"), "[]");
             }
 
+            // store user's name to track current user
             if (!localStorage.getItem("currentUser")) {
                 localStorage.setItem("currentUser", formData.get("name"));
             }

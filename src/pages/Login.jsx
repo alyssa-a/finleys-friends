@@ -1,6 +1,18 @@
-import LoginForm from "../components/LoginForm"
+import { useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
+import LoginForm from "../components/LoginForm";
+import { getWithTTL } from "../common/localStorageTTL";
 
 export default function Login() {
+    const navigate = useNavigate();
+    const loggedIn = getWithTTL("LoggedIn");
+
+    useEffect(() => {
+        if (loggedIn != null) {
+            navigate("/", { replace: true })
+        }
+    }, [loggedIn, navigate]);
+
     return (
         <div className="bg-cyan-700 min-w-full min-h-screen flex items-center justify-center text-white bg-paw-print p-8">
             <div>
