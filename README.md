@@ -1,14 +1,16 @@
 # Finley's Friends (Fetch Frontend Take Home)
 
 ## Live Demo
-add link here
+Check out the live demo: <https://finleys-friends.vercel.app/>
+
+\*__Note:__ When you refresh a page on a route that is not the homepage, Vercel may throw a 404 error. The `vercel.json` file fixes this issue.
 
 ## Tech
 - React
 - Vite
 - Tailwind CSS
 - Material UI
-- Testing framework.........
+- Vitest
 - Vercel
 
 ## Setup
@@ -17,9 +19,17 @@ add link here
 3. Run `npm run dev`
 
 ## Callouts
-- Responsive UI - i created this with mobile in mind
-- Accessibility - color contrast, keyboard navigation, aria, screen reader support. top of mind for me
-- Added additional sorting capabilities - sort by breed desc, youngest, oldest, name asc, name desc
-- Added locations data - city state more user friendly than zip
-- unit testing - given time, would like to have more code coverage
-- error handling - try to account for error paths to allow for graceful error handling (failed to execute search, failed to load dog results)
+- __Responsive UI__ - I designed the site with mobile users in mind. At smaller screen sizes, elements will stack and/or resize to provide a smooth user experience.
+
+- __Accessibility__ - Accessibility is always part of my workflow. I made sure color contrast between text and background met WCAG AA requirements. I also included support for screen reader users, providing additional context 
+
+
+keyboard navigation, aria, screen reader support. top of mind for me
+
+- __Added additional sorting capabilities__ - The default sort is by breeds (asceding), but users also have the option to sort by breed (descending), youngest, oldest, name (ascending), and name (descending).
+
+- __Incorporated locations data__ - When displaying the data for each dog, I display the city and state of the corresponding zipcode if that zipcode exists in the database. This is more user friendly way of displaying the location for each dog.
+
+- __Error handling__ - I tried to account for error paths to allow for graceful error handling where the user experience would be affected most. For example, if the search query failed to execute or the dog data failed to load, I display an error message letting the user know.
+
+- __Unit testing__ - I would have to liked to have more code coverage, but given the urgency and nature of this assignment, I included tests for the most critical elements.

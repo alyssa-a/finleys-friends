@@ -28,11 +28,18 @@ export default function DogCard({ dog, isFavorite, updateFavorites, location }) 
 
                 <p>{location}</p>
 
-                <button className="absolute top-2 right-2 p-1 bg-white rounded-sm" onClick={toggleFavorite}>
-                    <span className="sr-only">Add {dog.name} to favorites</span>
-                    { favorite
-                        ? <HeartIconSolid className="size-6 text-rose-600"/>
-                        : <HeartIcon className="size-6"/>
+                <button className="absolute top-2 right-2 p-1 bg-white rounded-sm focus-visible:outline focus-visible:outline-red-500 focus-visible:outline-4" onClick={toggleFavorite}>
+                    { favorite ? ( 
+                        <>
+                            <span className="sr-only">Remove {dog.name} to favorites</span>
+                            <HeartIconSolid className="size-6 text-rose-600"/> 
+                        </> 
+                    ) : ( 
+                        <>
+                            <span className="sr-only">Add {dog.name} to favorites</span>
+                            <HeartIcon className="size-6"/> 
+                        </>
+                    )
                     }
                 </button>
             </div>

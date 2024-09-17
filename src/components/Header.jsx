@@ -7,7 +7,7 @@ export default function Header() {
             <div className="container flex gap-x-7 justify-between items-center">
                 <div>
                     <h1 className="text-2xl font-bold">
-                        <Link to="/">Finley&rsquo;s Friends</Link>
+                        <Link className="focus-visible:outline focus-visible:outline-yellow-400 focus-visible:outline-4" to="/">Finley&rsquo;s Friends</Link>
                     </h1>
                 </div>
 
