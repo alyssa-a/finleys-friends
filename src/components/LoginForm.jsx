@@ -9,9 +9,12 @@ export default function LoginForm() {
         e.preventDefault();
         
         const formData = new FormData(e.target);
+        const userName = formData.get("name");
+        const userEmail = formData.get("email")
+
         const requestBody = JSON.stringify( {
-            name: formData.get("name"),
-            email: formData.get("email")
+            name: userName,
+            email: userEmail
         });
 
         const status = await login(requestBody);
@@ -21,18 +24,19 @@ export default function LoginForm() {
             setWithTTL("LoggedIn", true, 3600000);
 
             // store user's favorite dogs in a key with their name
-            if (!localStorage.getItem(formData.get("name"))) {
-                localStorage.setItem(formData.get("name"), "[]");
+            if (!localStorage.getItem(userName)) {
+                localStorage.setItem(userName, "[]");
             }
 
             // store user's name to track current user
             if (!localStorage.getItem("currentUser")) {
-                localStorage.setItem("currentUser", formData.get("name"));
+                localStorage.setItem("currentUser", "");
             }
+
+            localStorage.setItem("currentUser", userName);
 
             navigate("/");
         }
-
     }
     
     return (
