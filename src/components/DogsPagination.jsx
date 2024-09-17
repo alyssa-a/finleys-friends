@@ -5,8 +5,8 @@ export default function DogsPagination({prevPage, onClickPrev, onClickNext, offs
     const offsetNum = Number(offset.split("from=")[1]);
     let startingNum = offsetNum - 24;
     return (
-        <div className="mt-8 flex gap-x-6 justify-between">
-            <p>{startingNum} - {Math.min(offsetNum, total)} of {total} dogs</p>
+        <div className="mt-8 flex flex-col md:flex-row gap-x-6 items-center md:justify-between">
+            <p className="mb-4 md:mb-0">{startingNum} - {Math.min(offsetNum, total)} of {total} dogs</p>
             
             <div className="flex gap-x-4">
                 <button

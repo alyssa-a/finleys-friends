@@ -58,8 +58,8 @@ export default function Home() {
         <>
         <h2 className="font-bold text-3xl">Find your paw-fect match!</h2>
 
-        <div className="flex gap-x-8 mt-8">
-            <div className="w-1/3">
+        <div className="flex flex-col gap-x-8 mt-8 md:flex-row">
+            <div className="mb-8 md:w-1/3 md:mb-0">
                 <h3 className="font-bold text-xl mb-6">Sort & Filter</h3>
 
                 <Stack spacing={3}>
